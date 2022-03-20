@@ -1,23 +1,34 @@
 <?php
 
+require_once('Player.php');
+require_once('Dealer.php');
+
 class Game
 {
+    private const FIRST_DRAW_CARDS_NUM = 2;
+
     public function gameStart()
     {
-        $card = new Card();
+        // $card = new Card();
 
         $player = new Player();
         $playerCards = [];
-        $playerCards[] = $player->drawCard();
+        // プレイヤーが最初に2枚引く
+        for ($i = 0; $i < self::FIRST_DRAW_CARDS_NUM; $i++) {
+            $playerCards[] = $player->drawCard();
+        }
         $playerStringCards = $player->changeToStrings($playerCards);
+        $playerCardRanks = $player->changeToCardRanks($playerCards);
+        $playerSum = array_sum($playerCardRanks);
 
         $dealer = new Dealer();
         $dealerCards = [];
-        $dealerCards[] = $dealer->drawCard();
+        // ディーラーが最初に２枚引く
+        for ($i = 0; $i < self::FIRST_DRAW_CARDS_NUM; $i++) {
+            $dealerCards[] = $dealer->drawCard();
+        }
         $dealerStringCards = $dealer->changeToStrings($dealerCards);
 
-        $playerCardRanks = $player->getCardRanks();
-        $playerSum = array_sum($playerCardRanks);
 
         $firstDrawMessage = <<<FIRST
         ブラックジャックを開始します。

@@ -1,1 +1,1 @@
-{"version":1,"defects":{"GameTest::testGameStart":3},"times":{"GameTest::testGameStart":0.08}}
+{"version":1,"defects":{"GameTest::testGameStart":3,"DealerTest::testChangeToStrings":3,"PlayerTest::testChangeToStrings":3,"PlayerTest::testChangeToCardRanks":3},"times":{"GameTest::testGameStart":0.007,"DealerTest::testDrawCard":0.076,"DealerTest::testChangeToStrings":0,"DealerTest::testChangeToCardRanks":0,"PlayerTest::testDrawCard":0,"PlayerTest::testChangeToStrings":0,"PlayerTest::testChangeToCardRanks":0}}
