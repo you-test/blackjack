@@ -7,15 +7,19 @@ class Game
 {
     private const FIRST_DRAW_CARDS_NUM = 2;
 
+    private array $playerCards = [];
+
     public function gameStart()
     {
-        // $card = new Card();
-
+        // プレイヤーが最初に2枚引
         $player = new Player();
-        $playerCards = [];
-        // プレイヤーが最初に2枚引く
         for ($i = 0; $i < self::FIRST_DRAW_CARDS_NUM; $i++) {
-            $playerCards[] = $player->drawCard();
+
+            do {
+                $card = $player->drawCard();
+                $this->playerCards[] = $card;
+            } while (isCard($card))
+
         }
         $playerStringCards = $player->changeToStrings($playerCards);
         $playerCardRanks = $player->changeToCardRanks($playerCards);
@@ -40,5 +44,10 @@ class Game
         FIRST;
 
         echo $firstDrawMessage;
+    }
+
+    private function isCard(obj $card): bool
+    {
+        return in_array($card->getCardString(), $this->$playerCards[0]);
     }
 }

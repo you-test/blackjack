@@ -1,6 +1,7 @@
 <?php
 
 require_once('User.php');
+require_once('Card.php');
 
 class Player implements User
 {
@@ -8,7 +9,12 @@ class Player implements User
 
     public function drawCard()
     {
-        return 'h2';
+        $marks = ['h', 'c', 'd', 's'];
+        $numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k', 'a'];
+        $randomMark = $marks[rand(0, (count($marks) - 1))];
+        $randomNumber = $numbers[rand(0, count($numbers) - 1)];
+        $card = $randomMark . $randomNumber;
+        return new Card($card);
     }
 
     public function changeToStrings(array $cards): array
