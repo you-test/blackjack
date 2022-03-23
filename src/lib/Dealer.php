@@ -1,6 +1,7 @@
 <?php
 
 require_once('User.php');
+require_once('Card.php');
 
 class Dealer implements User
 {
@@ -8,13 +9,18 @@ class Dealer implements User
 
     public function drawCard()
     {
-        return 'h2';
+        $marks = ['h', 'c', 'd', 's'];
+        $numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k', 'a'];
+        $randomMark = $marks[rand(0, (count($marks) - 1))];
+        $randomNumber = $numbers[rand(0, count($numbers) - 1)];
+        $card = $randomMark . $randomNumber;
+        return new Card($card);
     }
 
     public function changeToStrings(array $cards): array
     {
-        $strings = array_map(function($card) {
-            $cardMark = mb_substr($card, 0, 1);
+        $strings = array_map(function(Card $card) {
+            $cardMark = mb_substr($card->getCardString(), 0, 1);
             $cardMarkName = '';
             switch($cardMark) {
                 case 'h':
@@ -30,7 +36,7 @@ class Dealer implements User
                     $cardMarkName = 'スペード';
                     break;
             }
-            $cardNum = mb_substr($card, 1);
+            $cardNum = mb_substr($card->getCardString(), 1);
             return $cardMarkName . 'の' . $cardNum;
         }, $cards);
 
@@ -39,7 +45,10 @@ class Dealer implements User
 
     public function changeToCardRanks(array $cards): array
     {
-        return [2, 7];
+        foreach ($cards as $card) {
+            $this->cardRanks[] = $card->getCardRank();
+        }
+        return $this->cardRanks;
     }
 
     public function setCardRanks(array $cards):void

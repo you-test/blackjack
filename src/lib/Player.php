@@ -19,8 +19,8 @@ class Player implements User
 
     public function changeToStrings(array $cards): array
     {
-        $strings = array_map(function($card) {
-            $cardMark = mb_substr($card, 0, 1);
+        $strings = array_map(function(Card $card) {
+            $cardMark = mb_substr($card->getCardString(), 0, 1);
             $cardMarkName = '';
             switch($cardMark) {
                 case 'h':
@@ -36,7 +36,7 @@ class Player implements User
                     $cardMarkName = 'スペード';
                     break;
             }
-            $cardNum = mb_substr($card, 1);
+            $cardNum = mb_substr($card->getCardString(), 1);
             return $cardMarkName . 'の' . $cardNum;
         }, $cards);
 
@@ -45,11 +45,9 @@ class Player implements User
 
     public function changeToCardRanks(array $cards): array
     {
-        return [2, 2];
-    }
-
-    public function setCardRanks(array $cards):void
-    {
-        $this->cardRanks = $cards;
+        foreach ($cards as $card) {
+            $this->cardRanks[] = $card->getCardRank();
+        }
+        return $this->cardRanks;
     }
 }

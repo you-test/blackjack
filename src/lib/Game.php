@@ -7,31 +7,29 @@ class Game
 {
     private const FIRST_DRAW_CARDS_NUM = 2;
 
+    // Cardインスタンスの配列
     private array $playerCards = [];
+    private array $dealerCards = [];
 
     public function gameStart()
     {
         // プレイヤーが最初に2枚引
         $player = new Player();
         for ($i = 0; $i < self::FIRST_DRAW_CARDS_NUM; $i++) {
-
-            do {
                 $card = $player->drawCard();
                 $this->playerCards[] = $card;
-            } while (isCard($card))
-
         }
-        $playerStringCards = $player->changeToStrings($playerCards);
-        $playerCardRanks = $player->changeToCardRanks($playerCards);
+        $playerStringCards = $player->changeToStrings($this->playerCards);
+        $playerCardRanks = $player->changeToCardRanks($this->playerCards);
         $playerSum = array_sum($playerCardRanks);
 
         $dealer = new Dealer();
-        $dealerCards = [];
         // ディーラーが最初に２枚引く
         for ($i = 0; $i < self::FIRST_DRAW_CARDS_NUM; $i++) {
-            $dealerCards[] = $dealer->drawCard();
+            $card = $dealer->drawCard();
+            $this->dealerCards[] = $card;
         }
-        $dealerStringCards = $dealer->changeToStrings($dealerCards);
+        $dealerStringCards = $dealer->changeToStrings($this->dealerCards);
 
 
         $firstDrawMessage = <<<FIRST
@@ -46,8 +44,4 @@ class Game
         echo $firstDrawMessage;
     }
 
-    private function isCard(obj $card): bool
-    {
-        return in_array($card->getCardString(), $this->$playerCards[0]);
-    }
 }
