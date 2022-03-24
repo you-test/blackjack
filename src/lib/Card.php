@@ -23,7 +23,24 @@ class Card
 
     public function getCardString(): string
     {
-        return $this->cardString;
+        $cardMark = mb_substr($this->cardString, 0, 1);
+        $cardMarkName = '';
+        switch($cardMark) {
+            case 'h':
+                $cardMarkName = 'ハート';
+                break;
+            case 'c':
+                $cardMarkName = 'クラブ';
+                break;
+            case 'd':
+                $cardMarkName = 'ダイヤ';
+                break;
+            case 's':
+                $cardMarkName = 'スペード';
+                break;
+        }
+        $cardNum = mb_substr($this->cardString, 1);
+        return $cardMarkName . 'の' . $cardNum;
     }
 
     public function getCardRank(): int

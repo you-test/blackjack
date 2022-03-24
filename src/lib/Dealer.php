@@ -20,24 +20,7 @@ class Dealer implements User
     public function changeToStrings(array $cards): array
     {
         $strings = array_map(function(Card $card) {
-            $cardMark = mb_substr($card->getCardString(), 0, 1);
-            $cardMarkName = '';
-            switch($cardMark) {
-                case 'h':
-                    $cardMarkName = 'ハート';
-                    break;
-                case 'c':
-                    $cardMarkName = 'クラブ';
-                    break;
-                case 'd':
-                    $cardMarkName = 'ダイヤ';
-                    break;
-                case 's':
-                    $cardMarkName = 'スペード';
-                    break;
-            }
-            $cardNum = mb_substr($card->getCardString(), 1);
-            return $cardMarkName . 'の' . $cardNum;
+            return $card->getCardString();
         }, $cards);
 
         return $strings;

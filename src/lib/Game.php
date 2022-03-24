@@ -42,6 +42,26 @@ class Game
         FIRST;
 
         echo $firstDrawMessage;
+
+        // プレイヤーがカード引くか選択（ループ）
+        $response = trim(fgets(STDIN));
+        echo $response;
+
+        while ($response === 'Y' || $response === 'y') {
+            $drawedCard = $player->drawCard();
+            $this->playerCards[] = $drawedCard;
+            $score = array_sum($player->changeToCardRanks($this->playerCards));
+
+            echo "あなたの引いたカードは{$drawedCard->getCardString()}です。" . PHP_EOL;
+            echo "あなたの現在の得点は{$score}です。カードを引きますか？（Y/N）" . PHP_EOL;
+            $response = trim(fgets(STDIN));
+            echo $response;
+        }
+
+        // 結果表示
+
+
+
     }
 
 }

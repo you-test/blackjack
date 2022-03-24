@@ -9,7 +9,7 @@ class CardTest extends TestCase
     function testGetCardString()
     {
         $card = new Card('h3');
-        $this->assertSame('h3', $card->getCardString());
+        $this->assertSame('ハートの3', $card->getCardString());
     }
 
     function testGetCardRank()
