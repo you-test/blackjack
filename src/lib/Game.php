@@ -20,8 +20,7 @@ class Game
                 $this->playerCards[] = $card;
         }
         $playerStringCards = $player->changeToStrings($this->playerCards);
-        $playerCardRanks = $player->changeToCardRanks($this->playerCards);
-        $playerSum = array_sum($playerCardRanks);
+        $playerSum = array_sum($player->getCardRanks());
 
         $dealer = new Dealer();
         // ディーラーが最初に２枚引く
@@ -45,23 +44,40 @@ class Game
 
         // プレイヤーがカード引くか選択（ループ）
         $response = trim(fgets(STDIN));
-        echo $response;
+        echo $response . PHP_EOL;
 
         while ($response === 'Y' || $response === 'y') {
             $drawedCard = $player->drawCard();
             $this->playerCards[] = $drawedCard;
-            $score = array_sum($player->changeToCardRanks($this->playerCards));
+            $playerScore = array_sum($player->getCardRanks());
 
             echo "あなたの引いたカードは{$drawedCard->getCardString()}です。" . PHP_EOL;
-            echo "あなたの現在の得点は{$score}です。カードを引きますか？（Y/N）" . PHP_EOL;
+            echo "あなたの現在の得点は{$playerScore}です。カードを引きますか？（Y/N）" . PHP_EOL;
             $response = trim(fgets(STDIN));
             echo $response;
         }
 
-        // 結果表示
+        // 最初にディーラーが引いた2枚目のカードとその合計値を表示
+        $dealerFirstScore = array_sum($dealer->getCardRanks());
+        $dealerCardInfoMessage = <<< INFO
+        ディーラーの引いた2枚目のカードは{$dealerStringCards[1]}でした。
+        ディーラーの現在の得点は{$dealerFirstScore}です。
+        INFO;
 
+        // ディーラーが合計値17以上になるまで引き続ける
+        while (array_sum($dealer->getCardRanks()) < 17) {
+            $dealerDrawCard = $dealer->drawCard();
+            $this->dealerCards[] = $dealerDrawCard;
 
+            echo "ディーラーの引いたカードは{$dealerDrawCard->getCardString()}です。" . PHP_EOL;
+        }
 
+        // 結果の表示
+        $resultMessage = <<< RESULT
+        あなたの得点は{$playerScore}です。
+        ディーラーの得点は{$dealerScore}です。
+
+        RESULT;
     }
 
 }

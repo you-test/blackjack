@@ -13,8 +13,9 @@ class Player implements User
         $numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k', 'a'];
         $randomMark = $marks[rand(0, (count($marks) - 1))];
         $randomNumber = $numbers[rand(0, count($numbers) - 1)];
-        $card = $randomMark . $randomNumber;
-        return new Card($card);
+        $card = new Card($randomMark . $randomNumber);
+        $this->cardRanks[] = $card->getCardRank();
+        return $card;
     }
 
     public function changeToStrings(array $cards): array
@@ -26,11 +27,8 @@ class Player implements User
         return $strings;
     }
 
-    public function changeToCardRanks(array $cards): array
+    public function getCardRanks(): array
     {
-        foreach ($cards as $card) {
-            $this->cardRanks[] = $card->getCardRank();
-        }
         return $this->cardRanks;
     }
 }

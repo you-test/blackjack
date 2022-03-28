@@ -26,16 +26,8 @@ class Dealer implements User
         return $strings;
     }
 
-    public function changeToCardRanks(array $cards): array
+    public function getCardRanks(): array
     {
-        foreach ($cards as $card) {
-            $this->cardRanks[] = $card->getCardRank();
-        }
         return $this->cardRanks;
-    }
-
-    public function setCardRanks(array $cards):void
-    {
-        $this->cardRanks = $cards;
     }
 }
