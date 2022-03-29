@@ -2,6 +2,7 @@
 
 require_once('Player.php');
 require_once('Dealer.php');
+require_once('WinnerEvaluator.php');
 
 class Game
 {
@@ -63,6 +64,7 @@ class Game
         ディーラーの引いた2枚目のカードは{$dealerStringCards[1]}でした。
         ディーラーの現在の得点は{$dealerFirstScore}です。
         INFO;
+        echo $dealerCardInfoMessage . PHP_EOL;
 
         // ディーラーが合計値17以上になるまで引き続ける
         while (array_sum($dealer->getCardRanks()) < 17) {
@@ -72,12 +74,18 @@ class Game
             echo "ディーラーの引いたカードは{$dealerDrawCard->getCardString()}です。" . PHP_EOL;
         }
 
-        // 結果の表示
+        // 最終的な得点の表示
+        $dealerScore = array_sum($dealer->getCardRanks());
         $resultMessage = <<< RESULT
         あなたの得点は{$playerScore}です。
         ディーラーの得点は{$dealerScore}です。
-
         RESULT;
-    }
+        echo $resultMessage . PHP_EOL;
 
+        // 勝敗の表示
+        $winnerEvaluator = new WinnerEvaluator();
+        $winner = $winnerEvaluator->getWinner($playerScore, $dealerScore);
+        echo $winner . PHP_EOL;
+        echo 'ブラックジャックを終了します。' . PHP_EOL;
+    }
 }
