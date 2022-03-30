@@ -9,13 +9,26 @@ class Game
     private const FIRST_DRAW_CARDS_NUM = 2;
 
     // Cardインスタンスの配列
+    private array $players = [];
     private array $playerCards = [];
     private array $dealerCards = [];
 
     public function gameStart()
     {
-        // プレイヤーが最初に2枚引
-        $player = new Player();
+        // ゲームスタート時にプレイヤーの人数を選択する
+        echo 'ブラックジャックを開始します。' . PHP_EOL;
+        echo 'プレイヤーの人数を選択してください。（1人: 1, 2人: 2, 3人: 3)';
+        $playerNum = trim(fgets(STDIN));
+
+        // プレイヤーインスタンスを選択したプライヤー数分プロパティにセットする
+        for ($i = 0; $i < $playerNum; $i++) {
+            $this->players[] = new Player();
+        }
+
+        // プレイヤーが最初の2枚を引く
+        foreach ($this->$players as $player) {
+
+        }
         for ($i = 0; $i < self::FIRST_DRAW_CARDS_NUM; $i++) {
                 $card = $player->drawCard();
                 $this->playerCards[] = $card;
@@ -33,7 +46,6 @@ class Game
 
 
         $firstDrawMessage = <<<FIRST
-        ブラックジャックを開始します。
         あなたの引いたカードは{$playerStringCards[0]}です。
         あなたの引いたカードは{$playerStringCards[1]}です。
         ディーラーの引いたカードは{$dealerStringCards[0]}です。
@@ -47,6 +59,7 @@ class Game
         $response = trim(fgets(STDIN));
         echo $response . PHP_EOL;
 
+        $playerScore = array_sum($player->getCardRanks());
         while ($response === 'Y' || $response === 'y') {
             $drawedCard = $player->drawCard();
             $this->playerCards[] = $drawedCard;
