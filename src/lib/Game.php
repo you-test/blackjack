@@ -25,15 +25,17 @@ class Game
             $this->players[] = new Player();
         }
 
-        // プレイヤーが最初の2枚を引く
-        foreach ($this->$players as $player) {
-
-        }
-        for ($i = 0; $i < self::FIRST_DRAW_CARDS_NUM; $i++) {
+        /**
+         * プレイヤー外最初の2枚を引く
+         * $this->playerCards = [['h2', 'c3'], ['c4', 'hq'], ...];
+         */
+        foreach ($this->players as $key => $player) {
+            for ($i = 0; $i < self::FIRST_DRAW_CARDS_NUM; $i++) {
                 $card = $player->drawCard();
-                $this->playerCards[] = $card;
+                $this->playerCards[$key][] = $card;
+            }
         }
-        $playerStringCards = $player->changeToStrings($this->playerCards);
+
         $playerSum = array_sum($player->getCardRanks());
 
         $dealer = new Dealer();
@@ -42,18 +44,21 @@ class Game
             $card = $dealer->drawCard();
             $this->dealerCards[] = $card;
         }
-        $dealerStringCards = $dealer->changeToStrings($this->dealerCards);
 
+        // 自分以外のプレイヤー（CPU)の引いたカードを表示
+        foreach ($this->playerCards as $playerNo => $playerCard) {
+            $no = $playerNo + 1;
+            echo "プレイヤー{$no}の引いたカードは{$playerCard[0]->getCardString()}です。" . PHP_EOL;
+            echo "プレイヤー{$no}の引いたカードは{$playerCard[1]->getCardString()}です。" . PHP_EOL;
+        }
 
-        $firstDrawMessage = <<<FIRST
-        あなたの引いたカードは{$playerStringCards[0]}です。
-        あなたの引いたカードは{$playerStringCards[1]}です。
+        // ディーラーとカードと自分の現在の得点の表示
+        $firstResultMessage = <<<FIRST
         ディーラーの引いたカードは{$dealerStringCards[0]}です。
         ディーラーの引いた2枚目のカードはわかりません。
         あなたの現在の得点は{$playerSum}です。カードを引きますか？（Y/N）
         FIRST;
-
-        echo $firstDrawMessage;
+        echo $firstResultMessage;
 
         // プレイヤーがカード引くか選択（ループ）
         $response = trim(fgets(STDIN));

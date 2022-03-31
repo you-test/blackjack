@@ -18,15 +18,6 @@ class Player implements User
         return $card;
     }
 
-    public function changeToStrings(array $cards): array
-    {
-        $strings = array_map(function(Card $card) {
-            return $card->getCardString();
-        }, $cards);
-
-        return $strings;
-    }
-
     public function getCardRanks(): array
     {
         return $this->cardRanks;
