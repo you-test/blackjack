@@ -100,9 +100,23 @@ class Game
         echo "ディーラーの得点は{$dealerScore}です。" . PHP_EOL;
 
         // 勝敗の表示
-        $winnerEvaluator = new WinnerEvaluator();
-        $winner = $winnerEvaluator->getWinner($playerScore, $dealerScore);
-        echo $winner . PHP_EOL;
+        $playersScore = array_map(fn($player) => array_sum($player->getCardRanks()) , $this->players);
+        $winEvaluator = $this->getWinnerEvaluator();
+        $winner = $winEvaluator->getWinner($playersScore, $dealerScore);
+        echo '勝者は' . $winner . 'です。' . PHP_EOL;
         echo 'ブラックジャックを終了します。' . PHP_EOL;
+    }
+
+    private function getWinnerEvaluator(): object
+    {
+        $winnerEvaluator = new WinnerEvaluatorOfOne();
+        if (count($this->players) === 2) {
+            $winnerEvaluator = new WinnerEvaluatorOfTwo();
+        }
+        if (count($this->players) === 3) {
+            $winnerEvaluator = new WinnerEvaluatorOfThree();
+        }
+
+        return $winnerEvaluator;
     }
 }
