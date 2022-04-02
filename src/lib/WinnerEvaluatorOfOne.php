@@ -1,16 +1,19 @@
 <?php
 
-class WinnerEvaluatorOfOne
+require_once('WinnerEvaluator.php');
+
+class WinnerEvaluatorOfOne implements WinnerEvaluator
 {
+    private const BASE_NUMBER = 21;
+
     public function getWinner(array $playersScore, int $dealerScore): string
     {
-        $winner = '勝者はプレイヤーです';
-        if (abs($playersScore[0]) === abs($dealerScore)) {
-            $winner = '引き分けです。';
+        if (abs($playersScore[0] - self::BASE_NUMBER) === abs($dealerScore - self::BASE_NUMBER)) {
+            return '引き分けです。';
         }
-        if (abs($playersScore[0]) > abs($dealerScore)) {
-            $winner = '勝者はディーラーです。';
+        if (abs($playersScore[0] - self::BASE_NUMBER) > abs($dealerScore - self::BASE_NUMBER)) {
+            return '勝者はディーラーです。';
         }
-        return $winner;
+        return '勝者はプレイヤーです。';
     }
 }

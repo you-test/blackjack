@@ -2,7 +2,8 @@
 
 require_once('Player.php');
 require_once('Dealer.php');
-require_once('WinnerEvaluator.php');
+require_once('WinnerEvaluatorOfOne.php');
+require_once('WinnerEvaluatorOfTwo.php');
 
 class Game
 {
@@ -103,20 +104,19 @@ class Game
         $playersScore = array_map(fn($player) => array_sum($player->getCardRanks()) , $this->players);
         $winEvaluator = $this->getWinnerEvaluator();
         $winner = $winEvaluator->getWinner($playersScore, $dealerScore);
-        echo '勝者は' . $winner . 'です。' . PHP_EOL;
+        echo $winner . PHP_EOL;
         echo 'ブラックジャックを終了します。' . PHP_EOL;
     }
 
-    private function getWinnerEvaluator(): object
+    private function getWinnerEvaluator(): WinnerEvaluator
     {
-        $winnerEvaluator = new WinnerEvaluatorOfOne();
         if (count($this->players) === 2) {
-            $winnerEvaluator = new WinnerEvaluatorOfTwo();
+            return new WinnerEvaluatorOfTwo();
         }
-        if (count($this->players) === 3) {
-            $winnerEvaluator = new WinnerEvaluatorOfThree();
-        }
+        // if (count($this->players) === 3) {
+        //     return new WinnerEvaluatorOfThree();
+        // }
 
-        return $winnerEvaluator;
+        return new WinnerEvaluatorOfOne();
     }
 }
