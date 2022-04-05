@@ -37,15 +37,19 @@ class WinnerEvaluatorOfThree implements WinnerEvaluator
                 $minPlayerKey = $minKey[0] + 1;
                 return '勝者はプレイヤー' . $minPlayerKey . 'です。';
             }
+            if (count(array_unique($absPlayers)) === 2 && array_count_values($absPlayers)[min($absPlayers)] === 1) {
+                $minKey = array_keys($absPlayers, min($absPlayers));
+                return "勝者はプレイヤー{$minKey[0]}です。";
+            }
             // プレイヤー2人が勝者
-            if (count(array_unique($absPlayers)) === 2) {
+            if (count(array_unique($absPlayers)) === 2 && array_count_values($absPlayers)[min($absPlayers)] === 2) {
                 $minKey = array_keys($absPlayers, min($absPlayers));
                 $minPlayerKey1 = $minKey[0] + 1;
                 $minPlayerKey2 = $minKey[1] + 1;
                 return "勝者はプレイヤー{$minPlayerKey1}とプレイヤー{$minPlayerKey2}です。";
             }
             // プレイヤー3人が勝者
-            if (count(array_unique($absPlayers)) === 3) {
+            if (count(array_unique($absPlayers)) === 1) {
                 return '勝者はプレイヤー全員です。';
             }
         }

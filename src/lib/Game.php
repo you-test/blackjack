@@ -4,6 +4,7 @@ require_once('Player.php');
 require_once('Dealer.php');
 require_once('WinnerEvaluatorOfOne.php');
 require_once('WinnerEvaluatorOfTwo.php');
+require_once('WinnerEvaluatorOfThree.php');
 
 class Game
 {
@@ -113,9 +114,9 @@ class Game
         if (count($this->players) === 2) {
             return new WinnerEvaluatorOfTwo();
         }
-        // if (count($this->players) === 3) {
-        //     return new WinnerEvaluatorOfThree();
-        // }
+        if (count($this->players) === 3) {
+            return new WinnerEvaluatorOfThree();
+        }
 
         return new WinnerEvaluatorOfOne();
     }
